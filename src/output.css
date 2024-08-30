@@ -239,7 +239,7 @@ button,
 input:where([type='button']),
 input:where([type='reset']),
 input:where([type='submit']) {
-  /* -webkit-appearance: button; */
+  -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
   /* 2 */
@@ -286,7 +286,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type='search'] {
-  /* -webkit-appearance: textfield; */
+  -webkit-appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
@@ -426,7 +426,7 @@ embed,
 object {
   display: block;
   /* 1 */
-  /* vertical-align: middle; */
+  vertical-align: middle;
   /* 2 */
 }
 
@@ -552,4 +552,50 @@ video {
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.m-4 {
+  margin: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.h-16 {
+  height: 4rem;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
+.pt-3 {
+  padding-top: 0.75rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+body{
+  /* background-image: linear-gradient(to bottom, #37d1ff, #19b6ed, #009cda, #0082c5, #0069ae, #005aa1, #004c94, #003e87, #023681, #052f7c, #092775, #0e1f6f); */
+  background-image: url("./Images/beautiful_white_clouds_yellow_blue_sky_hd_sky.jpg");
+  background-size: 100vw 100vh;
+  background-repeat: no-repeat;
+  font-family: Arial, Helvetica, sans-serif;
 }
