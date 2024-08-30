@@ -14,14 +14,19 @@
         <h1 id="Heading" class="text-3xl font-bold text-white pt-3 pl-2">WeatherUpdate</h1>
     </header>
 
-    <main class="pt-32">
-        <div class="searchBar flex w-[100vw] flex-row justify-center">
+    <main class=" block w-screen h-screen pt-32">
+        <div class="searchBar flex w-[100vw] flex-col px-[25%]">
             
             <form onsubmit="return false" class="searchForm flex">
                 <input class="searchInput w-[430px] p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left" required type="text" placeholder="Enter your City name to get weather information..">
-                <button type="submit" class="searchBtn w-[10%] p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
+                <button type="submit" class="searchBtn w-16 p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
             
             </form>
+            <div class="dropdown">
+                <ul class="dropdown-content">
+                  <li><button class="locationBtn"><i class="fa-solid fa-location-crosshairs fa-spin" style="color: #2563eb; font-size: larger; margin: 2px; margin-right: 5px;"></i>Use my Current Location</button></li>
+                </ul>
+            </div>
             
         </div>  
     </main>

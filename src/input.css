@@ -5,7 +5,53 @@
 body{
     /* background-image: linear-gradient(to bottom, #37d1ff, #19b6ed, #009cda, #0082c5, #0069ae, #005aa1, #004c94, #003e87, #023681, #052f7c, #092775, #0e1f6f); */
     background-image: url("./Images/beautiful_white_clouds_yellow_blue_sky_hd_sky.jpg");
+    /* background-size: 100vw 100vh;  */
     background-size: 100vw 100vh; 
     background-repeat: no-repeat;
     font-family: Arial, Helvetica, sans-serif;
 }
+ 
+.searchBtn:active {
+    box-shadow: 2px 4px 5px #9b9b9bc4;
+    transform: translateY(4px);
+  
+}
+.dropdown-content{
+    display: none;
+    background-color: #f1f1f1;
+    width: 430px;
+    box-shadow: 5px 10px 20px 5px rgba(172, 172, 172, 0.2);
+    z-index: 1;
+    margin-top: 5px;
+}
+
+
+  /* .dropdown-content li{
+    color: black;
+    padding: 6px 10px;
+    display: block;
+    font-weight: 600;
+  } */
+
+.dropdown-content li .locationBtn{
+    color: #5d5f64;
+    padding: 6px 10px;
+    display: block;
+    font-weight:900;
+    width: 100%;
+    text-align: left;
+    border: solid 4px  #0b54f0;
+    font-size:medium;
+    -webkit-transition: ease-out 0.4s;
+    -moz-transition: ease-out 0.4s;
+    transition: ease-out 0.4s;
+}
+
+.dropdown-content li .locationBtn:hover{
+    box-shadow: inset 400px 50px 0 0 #0b54f0;
+    color: white;
+}
+
+  
+
+  
