@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    /* background-image: linear-gradient(to bottom, #37d1ff, #19b6ed, #009cda, #0082c5, #0069ae, #005aa1, #004c94, #003e87, #023681, #052f7c, #092775, #0e1f6f); */
+    background-image: url("./Images/beautiful_white_clouds_yellow_blue_sky_hd_sky.jpg");
+    background-size: 100vw 100vh; 
+    background-repeat: no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+}
