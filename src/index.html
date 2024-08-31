@@ -12,6 +12,7 @@
 
     <!-- script for adding font-awesome icons in project -->
     <script src="https://kit.fontawesome.com/ee8af2a43b.js" crossorigin="anonymous"></script>
+    
 
     <title>WeatherUpdate</title>
 </head>
@@ -25,10 +26,10 @@
     </header>
 
     <!-- Main body -->
-    <main class=" block w-screen h-screen pt-32">
+    <main class="block w-screen h-screen pt-32">
 
         <!-- Search bar section having text input,search button and drop-down menu having current location button -->
-        <div class="searchBar flex w-[100vw] flex-col px-[25%]">
+        <section class="searchBar flex w-[100vw] flex-col px-[25%]">
             
             <form onsubmit="return false" class="searchForm flex">
                 <input class="searchInput w-[430px] p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left" required type="text" placeholder="Enter your City name to get weather information..">
@@ -41,22 +42,14 @@
                 </ul>
             </div>
             
-        </div>
+        </section>
 
-        <div class="weatherDisplay flex mt-16 mx-14 gap-10">
+        <!-- Weather Data Display section having divs to display all the data in a presentable manner -->
+        <section class="weatherDisplay flex mt-16 mx-14 gap-10">
 
             <!-- div to display current weather forecast of the city user entered -->
                 <div class="currentData bg-sky-900 bg-opacity-50 hover:shadow-inner w-[30%] flex gap-2 p-4 text-white font-bold">
-                    <div class="details w-[70%] mt-4">
-                        <h2>London (2024-06-05)</h2>
-                        <h4 class="mt-2">Temperature: 56°C</h4>
-                        <h4>Wind: 123 M/S</h4>
-                        <h4>Humidity: 30%</h4>
-                    </div>
-                    <div class="currentImg pt-3 w-[30%]">
-                        <img src="./Images/favicon.ico" alt="">
-                        <h2 class="pt-2">Moderate Rain</h2>
-                    </div>
+                    
                 </div>
 
             
@@ -121,14 +114,16 @@
                     </ul>
                 </div>
         
-        </div>
+            </section>
 
             
         
         
         
     </main>
-<script src="code.js"></script>
+    
+    <!--linked JS script  -->
+    <script src="code.js"></script>
 </body>
 </html>
 

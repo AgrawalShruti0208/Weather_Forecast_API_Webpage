@@ -10,6 +10,8 @@ body{
     background-repeat: no-repeat;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+
  
 .searchBtn:active {
     box-shadow: 2px 4px 5px #9b9b9bc4;
@@ -50,6 +52,10 @@ body{
     box-shadow: inset 400px 50px 0 0 #0b54f0;
     color: white;
 }
+
+/* .weatherDisplay{
+    visibility: hidden;
+} */
 
 .weatherDisplay h2{
     font-size: 18px;
