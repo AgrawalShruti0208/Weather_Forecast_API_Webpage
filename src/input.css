@@ -16,22 +16,21 @@ body{
     transform: translateY(4px);
   
 }
+
+.searchInput{
+    position: relative;
+}
+
 .dropdown-content{
     display: none;
     background-color: #f1f1f1;
     width: 430px;
     box-shadow: 5px 10px 20px 5px rgba(172, 172, 172, 0.2);
     z-index: 1;
-    margin-top: 5px;
+    margin-top: 5px; 
+    position: absolute;
 }
 
-
-  /* .dropdown-content li{
-    color: black;
-    padding: 6px 10px;
-    display: block;
-    font-weight: 600;
-  } */
 
 .dropdown-content li .locationBtn{
     color: #5d5f64;
@@ -51,6 +50,27 @@ body{
     box-shadow: inset 400px 50px 0 0 #0b54f0;
     color: white;
 }
+
+.weatherDisplay h2{
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.currentData{
+    box-shadow:  2px 2px 4px #0c4a6e;
+}
+
+.currentData h4{
+    margin-left: 8px;
+}
+
+.fiveDayForecast .dataCards .card{
+   box-shadow:  2px 2px 4px black;
+   padding: 20px;
+   width: 20%;
+   margin-right: 10px;
+}
+
 
   
 
