@@ -69,7 +69,7 @@
     const getWeatherInfo = (cityName,lat,lon)=>{
             currentData.innerHTML = "";
             dataCards.innerHTML = "";
-            weatherDisplay.style.visibility = "visible";
+            
             
         //API for collecting current weather data having 1 Array
             const currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
@@ -173,12 +173,60 @@
         });
     }
 
-//CLICK EVENT FOR SEARCH BUTTON
-searchBtn.addEventListener("click",getCityInfo);
-searchBtn.addEventListener("click",()=>{
-    weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+//getUserLocation() function to get user location coordinates and city name using reverse geocoding api
+    const getUserLocation = () =>{
+
+        //CLICK EVENT FOR LOCATION BUTTON
+        weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+
+        //callback function success, if getCurrentPosition() method gets successful
+        function success(position){
+            console.log("Position found through getCurrentPosition():\n",position,"\n_______________________________________");
+            
+            //got lan and lon coordinates from position object
+            const {latitude,longitude} = position.coords;
+           
+            //getting City Name from coordinates using reverse geocoding API
+            const reverseGeocodingAPI =`http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`;
+
+            fetch(reverseGeocodingAPI)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Fetched city name and other data from reverse geocoding API:\n",data,"\n_______________________________________");
+
+                const{name} = data[0];
+
+                console.log(name,latitude,longitude);
+
+                getWeatherInfo(name,latitude,longitude);
+
+            }).catch(() => {
+                alert("An error occurred while fetching the city name!Please Try again.");
+            });
+        }
+
+        //callback function error, if getCurrentPosition() method fails
+        function error(err){
+            if (err.code === err.PERMISSION_DENIED) {
+                alert("Location Request denied by User! Please reset location permission to access weather information.");
+            } else {
+                alert("Error in fetching current location! Please reset location permission.");
+            }
+        }
+        //getting current position coordinates of user using getCurrentPosition() method of navigator interface
+        navigator.geolocation.getCurrentPosition(success,error);
     
-});
+}
+
+    
+    
+
+//CLICK EVENT FOR SEARCH BUTTON
+    searchBtn.addEventListener("click",getCityInfo);
+    searchBtn.addEventListener("click",()=>{
+        weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+        
+    });
 
 
 
@@ -194,7 +242,7 @@ searchBtn.addEventListener("click",()=>{
         setTimeout(()=>{
             dropdown.style.display = "none";
         },4000);  
-    })
+    });
 
 
 
