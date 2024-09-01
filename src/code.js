@@ -7,66 +7,134 @@
         const locationBtn = document.querySelector("locationBtn");
 
     // DOM ELEMENT REFERENCE FOR PUTTING HTML INSIDE THIS TWO DISPLAY SECTIONS
+        const weatherDisplay = document.querySelector(".weatherDisplay");
         const currentData = document.querySelector(".currentData");
         const dataCards = document.querySelector(".dataCards");
+
     
     // MY API KEY FOR MAKING API REQUESTS
         const API_KEY = "bfa6697d5b3f4ad188143fbd133c0b05";
 
+//creating today's date because api has sent date in a undesirable format
+    let temp = new Date();
+    let tempMonth = temp.getMonth()+1;
+    let tempDate = temp.getDate();
+    const currentDate = temp.getFullYear() +"-"+[[tempMonth<10]?["0"+tempMonth]:[tempMonth]]+"-"+[[tempDate<10]?["0"+tempDate]:[tempDate]];
+
 //displayWeatherInfo(cityName,array,index) - to create html for display div's and insert them
     const displayWeatherInfo=(cityName,data,index) =>{
         let html = "";
-        cityInput.value="";
+        cityInput.value=""; //clearing input
+        
 
-        if(index==0){
-            currentData.innerHTML = "";
+        if(index==0){ //Displaying information of current weather
+            
+            
 
-            //creating current date because api has sent date in a undesirable format
-            let temp = new Date();
-            const currentDate = temp.getFullYear() +"-"+[temp.getMonth()+1]+"-"+temp.getDate();
-
-            html = `<div class="details w-[70%] mt-4">
+            //creating html for the display section with extracted data
+            html = `<div class="details w-[70%] mt-4 pl-4 pt-3">
                         <h2>${cityName} (${currentDate})</h2>
                         <h4 class="mt-2">Temperature: ${data.main.temp} °C</h4>
                         <h4>Wind: ${data.wind.speed} M/S</h4>
                         <h4>Humidity: ${data.main.humidity}%</h4>
                     </div>
-                    <div class="currentImg pt-3 w-[30%]">
-                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" class="bg-[#0c4a6e] bg-opacity-40 rounded-full p-0" alt="weather icon">
+                    <div class="currentImg w-[30%] pr-4 pt-5">
+                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" class="bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
                         <h2 class="pt-2">${data.weather[0].description}</h2>
                     </div>`;
             
             currentData.innerHTML = html;
 
             
+        }else{ //Displaying Information of 5 Days Forecast
+            
+            //Creating Weather cards with extracted information from data
+            html = `<li class="card bg-black bg-opacity-60">
+                            <h2 class="font-bold">${data.dt_txt.split(" ")[0]}</h2>
+                            <div class="daysImg flex py-2">
+                                <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" class="w-[45%] bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
+                                <h4 class="pt-1 px-2 w-[65%] font-semibold">${data.weather[0].description}</h4>
+                            </div>
+                            <h4><b>Temp:</b> ${data.main.temp} °C</h4>
+                            <h4><b>Wind:</b> ${data.wind.speed} M/S</h4>
+                            <h4><b>Humidity:</b> ${data.main.humidity}%</h4>
+                    </li>`;
+                
+                dataCards.innerHTML += html;
         }
     }
 
 
 //getWeatherInfo(CityName,lat,lon) - get weather info using passed parameters and displaying it
     const getWeatherInfo = (cityName,lat,lon)=>{
-        
-        const currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-        
-        fetch(currentWeatherAPI)
-        .then(response => response.json())
-        .then(data => {
-            console.log("current weather data fetched from API\n",data,"\n_______________________________________");
-            displayWeatherInfo(cityName,data,0);
+            currentData.innerHTML = "";
+            dataCards.innerHTML = "";
+            weatherDisplay.style.visibility = "visible";
+            
+        //API for collecting current weather data having 1 Array
+            const currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+            
+            
+            
+            //fetching current weather data and displaying it
+            fetch(currentWeatherAPI)
+            .then(response => response.json())
+            .then(data => {
+                console.log("current weather data fetched from API\n",data,"\n_______________________________________");
+                displayWeatherInfo(cityName,data,0);
 
-        })
-        .catch(error => console.log(error));
+            })
+            .catch(()=>{
+                cityInput.value = "";
+                alert("An error occurred while fetching the weather forecast!");
+            });
 
-        
+        //API for collecting weather data of 5 days within every 3 hours 
+            const weatherDataAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
+            fetch(weatherDataAPI)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Weather data for 5-Days fetched from API\n",data,"\n_______________________________________");
+                
+                //Have to filter data to get unique records for 5 days forecast and then display it
+                    
+                    //empty array to store only unique dates encountered
+                    const uniqueDate = [];
 
-
-        // const weatherDataAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
-
-        // fetch(weatherDataAPI)
-        // .then(response => response.json())
-        // .then(data => console.log(data))
-        // .catch(error => console.log(error));
+                    // empty array to store unique records
+                    const fiveDaysData = [];
+                    
+                    
+                    //using foreach method on list array of data
+                    data.list.forEach(record => {
+                        /*for each record,
+                            *extracting recordDate by splitting it using "whitespace" as separator and retreiving first part
+                            *then this recordDate should not be inside uniqueDate array AND should not be equal to currentDate
+                                **if it passes both conditions, add recordDate to uniqueDate and record to fiveDaysData
+                                **call displayWeatherInfo with parameters: cityName,record and fiveDaysData array's length as index
+                        */
+                        const recordDate = record.dt_txt.split(" ")[0];
+                        
+                        if (!uniqueDate.includes(recordDate)&&(recordDate != currentDate)) {
+                                // // return uniqueDate.push(recordDate);
+                                uniqueDate.push(recordDate);
+                                fiveDaysData.push(record);
+                                displayWeatherInfo(cityName,record,fiveDaysData.length);
+                                
+                        }
+                            
+                        
+                    });
+                    
+                    console.log("Weather data filtered to get 5 days forecast records:\n",fiveDaysData,"\n_______________________________________");
+  
+                    
+             })
+            .catch(()=>{
+                cityInput.value = "";
+                alert("An error occurred while fetching the weather forecast!");
+            });
     }
 
 //getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
@@ -107,6 +175,10 @@
 
 //CLICK EVENT FOR SEARCH BUTTON
 searchBtn.addEventListener("click",getCityInfo);
+searchBtn.addEventListener("click",()=>{
+    weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+    
+});
 
 
 
@@ -114,6 +186,8 @@ searchBtn.addEventListener("click",getCityInfo);
     cityInput.addEventListener("mouseover",()=>{
         dropdown.style.display = "block";
     })
+
+    
 
 //closing drop-down after 4 secs of user moving mouse away from input text field
     cityInput.addEventListener("mouseout",()=>{

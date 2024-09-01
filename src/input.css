@@ -53,9 +53,27 @@ body{
     color: white;
 }
 
-/* .weatherDisplay{
-    visibility: hidden;
-} */
+.weatherDisplay{
+    opacity: 0;
+    
+}
+
+
+@keyframes fade-in {
+    0%{
+        opacity: 0;
+    }25%{
+        opacity: 0.2;
+    }50%{
+        opacity:0.4;
+    }75%{
+        opacity: 0.6;
+    }100%{
+        opacity: 1;
+    }
+}
+
+  
 
 .weatherDisplay h2{
     font-size: 18px;
@@ -72,7 +90,7 @@ body{
 
 .fiveDayForecast .dataCards .card{
    box-shadow:  2px 2px 4px black;
-   padding: 20px;
+   padding: 10px;
    width: 20%;
    margin-right: 10px;
 }

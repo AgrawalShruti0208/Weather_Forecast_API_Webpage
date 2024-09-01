@@ -554,6 +554,44 @@ video {
   --tw-contain-style:  ;
 }
 
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.visible {
+  visibility: visible;
+}
+
 .fixed {
   position: fixed;
 }
@@ -599,10 +637,6 @@ video {
   height: 100vh;
 }
 
-.w-10 {
-  width: 2.5rem;
-}
-
 .w-16 {
   width: 4rem;
 }
@@ -617,6 +651,14 @@ video {
 
 .w-\[430px\] {
   width: 430px;
+}
+
+.w-\[45\%\] {
+  width: 45%;
+}
+
+.w-\[65\%\] {
+  width: 65%;
 }
 
 .w-\[70\%\] {
@@ -647,28 +689,12 @@ video {
   gap: 0.5rem;
 }
 
-.text-ellipsis {
-  text-overflow: ellipsis;
-}
-
-.text-clip {
-  text-overflow: clip;
-}
-
-.text-nowrap {
-  text-wrap: nowrap;
-}
-
-.text-balance {
-  text-wrap: balance;
+.rounded-full {
+  border-radius: 9999px;
 }
 
 .rounded-md {
   border-radius: 0.375rem;
-}
-
-.rounded-full {
-  border-radius: 9999px;
 }
 
 .rounded-l-none {
@@ -701,17 +727,20 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#0c4a6e\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(12 74 110 / var(--tw-bg-opacity));
+.bg-transparent {
+  background-color: transparent;
+}
+
+.bg-opacity-45 {
+  --tw-bg-opacity: 0.45;
 }
 
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
 
-.bg-opacity-40 {
-  --tw-bg-opacity: 0.4;
+.bg-opacity-60 {
+  --tw-bg-opacity: 0.6;
 }
 
 .p-2 {
@@ -722,13 +751,19 @@ video {
   padding: 1rem;
 }
 
-.p-0 {
-  padding: 0px;
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .px-\[25\%\] {
   padding-left: 25%;
   padding-right: 25%;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .pl-2 {
@@ -751,6 +786,18 @@ video {
   padding-top: 8rem;
 }
 
+.pl-4 {
+  padding-left: 1rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
+}
+
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -761,18 +808,12 @@ video {
   line-height: 1.75rem;
 }
 
-.text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
-
-.text-sm {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
 .font-bold {
   font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
 }
 
 .text-blue-900 {
@@ -799,6 +840,19 @@ video {
 .shadow-blue-500 {
   --tw-shadow-color: #3b82f6;
   --tw-shadow: var(--tw-shadow-colored);
+}
+
+.shadow-white {
+  --tw-shadow-color: #fff;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body{
@@ -846,9 +900,31 @@ body{
   color: white;
 }
 
-/* .weatherDisplay{
-    visibility: hidden;
-} */
+.weatherDisplay{
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  0%{
+    opacity: 0;
+  }
+
+  25%{
+    opacity: 0.2;
+  }
+
+  50%{
+    opacity:0.4;
+  }
+
+  75%{
+    opacity: 0.6;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
 
 .weatherDisplay h2{
   font-size: 18px;
@@ -865,9 +941,15 @@ body{
 
 .fiveDayForecast .dataCards .card{
   box-shadow:  2px 2px 4px black;
-  padding: 20px;
+  padding: 10px;
   width: 20%;
   margin-right: 10px;
+}
+
+.hover\:scale-\[1\.2\]:hover {
+  --tw-scale-x: 1.2;
+  --tw-scale-y: 1.2;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .hover\:bg-blue-700:hover {
