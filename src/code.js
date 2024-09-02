@@ -22,6 +22,30 @@
     let tempDate = temp.getDate();
     const currentDate = temp.getFullYear() +"-"+[[tempMonth<10]?["0"+tempMonth]:[tempMonth]]+"-"+[[tempDate<10]?["0"+tempDate]:[tempDate]];
 
+    let cityNames;
+
+    getArray();
+
+
+    function getArray(){
+        let localStorageString = localStorage.getItem("cityNames");
+        if(localStorageString){
+            cityNames = JSON.parse(localStorageString);
+            console.log("Retrieved array from localStorage",cityNames); 
+            addCityToList(cityNames);
+        }else{
+            cityNames = [];  
+            setArray();
+        }
+        
+    }
+    
+   
+     
+    // addCityToList(retrievedArray);
+    
+
+
 //displayWeatherInfo(cityName,array,index) - to create html for display div's and insert them
     const displayWeatherInfo=(cityName,data,index) =>{
         let html = "";
@@ -166,7 +190,7 @@
                 return alert(`No coordinates found for ${cityName},Enter valid Input.`);
                 
             }
-            addCityToList();
+            createCityList();
             console.log("Data fetched for finding city coordinates from name\n",data,"\n_______________________________________");
             
             // extracting latitude and longitude of the city from data
@@ -260,12 +284,15 @@
 
     });
 
+    function setArray(){
+        let string = JSON.stringify(cityNames);
+        localStorage.setItem("cityNames", string); 
+    }
 
-    const cityNames = [];
     
-
-  function addCityToList(){
-
+    
+    
+  function createCityList(){
     let cityName = cityInput.value;
     
     //finding if city name already exist in array, if result index == -1 then only city name will be added to array
@@ -284,11 +311,17 @@
             //adding recent city name at first in array using unshift() method
             cityNames.unshift(cityName);
         }
+       
+        setArray();
+       
+       addCityToList(cityNames);
+  }
+
+  function addCityToList(cityNames){
             
-    let html = ``;
+    
     console.log("Recently searched valid city names: ",cityNames,"\n__________________________________");
     
-    dropdown.innerHTML = "";
     if(cityNames.length <=1){
         dropdown.setAttribute("size", "2");
     }else{
@@ -296,7 +329,8 @@
         dropdown.setAttribute("size", length);
     }
 
-    
+    let html = ``;
+    dropdown.innerHTML = "";
     
     cityNames.forEach((city)=>{
         html = `<option>${city}</option>`;
@@ -306,6 +340,8 @@
         
     
   }
+
+ 
 
   //CHANGE EVENT FOR SELECTING CITY NAME FROM DROP-DOWN MENU
   dropdown.addEventListener("change",()=>{
