@@ -1,5 +1,6 @@
 // DOM ELEMENT REFERENCE FOR PERFORMING JS OPERATIONS
     const dropdown = document.querySelector(".dropdown-content");
+   
 
     // USER INTERACTIVE DOM ELEMENTS
         const cityInput = document.querySelector(".searchInput");
@@ -25,6 +26,8 @@
     const displayWeatherInfo=(cityName,data,index) =>{
         let html = "";
         cityInput.value=""; //clearing input
+        
+        
         
 
         if(index==0){ //Displaying information of current weather
@@ -95,6 +98,7 @@
             fetch(weatherDataAPI)
             .then(response => response.json())
             .then(data => {
+                
                 console.log("Weather data for 5-Days fetched from API\n",data,"\n_______________________________________");
                 
                 //Have to filter data to get unique records for 5 days forecast and then display it
@@ -139,6 +143,9 @@
 
 //getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
     const getCityInfo=()=>{
+
+        weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+        console.log("search button id:");
         
         //getting city name from input field and trimming all the white spaces
         const cityName = cityInput.value.trim();
@@ -159,7 +166,7 @@
                 return alert(`No coordinates found for ${cityName},Enter valid Input.`);
                 
             }
-
+            addCityToList();
             console.log("Data fetched for finding city coordinates from name\n",data,"\n_______________________________________");
             
             // extracting latitude and longitude of the city from data
@@ -176,8 +183,12 @@
 //getUserLocation() function to get user location coordinates and city name using reverse geocoding api
     const getUserLocation = () =>{
 
+        
+
         //CLICK EVENT FOR LOCATION BUTTON
         weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
+
+        console.log("location button id:");
 
         //callback function success, if getCurrentPosition() method gets successful
         function success(position){
@@ -221,29 +232,92 @@
     
     
 
-//CLICK EVENT FOR SEARCH BUTTON
-    searchBtn.addEventListener("click",getCityInfo);
-    searchBtn.addEventListener("click",()=>{
-        weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
-        
-    });
+
+    
+    
+    
 
 
 
 // displaying drop-down menu as soon as someone hovers mouse over input text field
     cityInput.addEventListener("mouseover",()=>{
-        dropdown.style.display = "block";
-    })
+        if(dropdown.length !=0)
+            dropdown.style.display = "block";
+    });
+
+    cityInput.addEventListener("mousedown",()=>{
+        if(dropdown.length !=0)
+            dropdown.style.display = "block";
+    });
 
     
 
-//closing drop-down after 4 secs of user moving mouse away from input text field
-    cityInput.addEventListener("mouseout",()=>{
-        setTimeout(()=>{
+//closing drop-down after user performs mouse click outside drop-down menu
+    document.addEventListener("click",e =>{
+        if(!dropdown.contains(e.target) && e.target != cityInput && e.target != searchBtn){
             dropdown.style.display = "none";
-        },4000);  
+        }
+
     });
 
+
+    const cityNames = [];
+    
+
+  function addCityToList(){
+
+    let cityName = cityInput.value;
+    
+    //finding if city name already exist in array, if result index == -1 then only city name will be added to array
+    let resultIndex = cityNames.findIndex(item => cityName.toLowerCase() === item.toLowerCase());
+   
+        if(resultIndex == -1){
+
+            //if array length reaches 5 elements,then popping last element as we want to recent 5 city names history
+            if(cityNames.length ==5){
+                cityNames.pop();
+            }
+            
+            //converting city name in a presentable manner
+            cityName = cityName.charAt(0).toUpperCase() + cityName.substring(1).toLowerCase();
+
+            //adding recent city name at first in array using unshift() method
+            cityNames.unshift(cityName);
+        }
+            
+    let html = ``;
+    console.log("Recently searched valid city names: ",cityNames,"\n__________________________________");
+    
+    dropdown.innerHTML = "";
+    if(cityNames.length <=1){
+        dropdown.setAttribute("size", "2");
+    }else{
+        let length = ""+cityNames.length;
+        dropdown.setAttribute("size", length);
+    }
+
+    
+    
+    cityNames.forEach((city)=>{
+        html = `<option>${city}</option>`;
+        dropdown.innerHTML += html;
+    })
+        
+        
+    
+  }
+
+  //CHANGE EVENT FOR SELECTING CITY NAME FROM DROP-DOWN MENU
+  dropdown.addEventListener("change",()=>{
+    const cityName = dropdown.options[dropdown.selectedIndex].text;
+    cityInput.value = cityName;
+    getCityInfo();
+    
+  });
+
+  
+
+  
 
 
 
