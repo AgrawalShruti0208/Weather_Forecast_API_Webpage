@@ -16,24 +16,33 @@
     // MY API KEY FOR MAKING API REQUESTS
         const API_KEY = "bfa6697d5b3f4ad188143fbd133c0b05";
 
-//creating today's date because api has sent date in a undesirable format
+//creating today's date because current weather api has sent date in an undesirable format
     let temp = new Date();
     let tempMonth = temp.getMonth()+1;
     let tempDate = temp.getDate();
     const currentDate = temp.getFullYear() +"-"+[[tempMonth<10]?["0"+tempMonth]:[tempMonth]]+"-"+[[tempDate<10]?["0"+tempDate]:[tempDate]];
 
+//cityNames global variable to store records
     let cityNames;
 
+// calling getArray() function to get array stored inside localStorage
     getArray();
 
 
+// function getArray() to get array stored in localStorage if present, otherwise storing empty array
     function getArray(){
+
         let localStorageString = localStorage.getItem("cityNames");
-        if(localStorageString){
-            cityNames = JSON.parse(localStorageString);
-            console.log("Retrieved array from localStorage",cityNames); 
-            addCityToList(cityNames);
-        }else{
+
+        // if localStorage has data: convert string to array and adding it to drop-down list
+            if(localStorageString){ 
+                
+                cityNames = JSON.parse(localStorageString);
+                console.log("Retrieved array from localStorage",cityNames); 
+                addCityToList(cityNames);
+            
+            }else{ //else, storing empty array inside cityNames and setting up an empty array inside localStorage
+           
             cityNames = [];  
             setArray();
         }
@@ -41,7 +50,7 @@
     }
     
    
-     
+// Adding header styling when page is being scrolled
     const header = document.querySelector("header");
 
       window.addEventListener("scroll",()=>{
@@ -55,11 +64,14 @@
 
 
 //displayWeatherInfo(cityName,array,index) - to create html for display div's and insert them
+/*
+    *[if(index==0),create html for current weather data and insert html in current weather div],
+    *[else,create html for 5-day weather data and insert html in 5-day forecast div]
+
+*/
     const displayWeatherInfo=(cityName,data,index) =>{
         let html = "";
         cityInput.value=""; //clearing input
-        
-        
         
 
         if(index==0){ //Displaying information of current weather
@@ -101,101 +113,132 @@
         }
     }
 
-        let n = 0;
+let n = 0;
+
 //getWeatherInfo(CityName,lat,lon) - get weather info using passed parameters and displaying it
+    /*->
+        {
+            *fetch current weather information using current weather API URL and parameters
+                **if resolved, then calling displayWeatherInfo(cityName,data,0);..0 for index
+            *fetch 5-Day weather information using weather API URL and parameters,if resolved, 
+                **if resolved,Filter data as we require 5 weather data array: 5 Days forecast and store it in a array
+                **Filtered record is sent to displayWeatherInfo(cityName,filteredRecord,array.length);,..array.length for index
+            *catch(error)
+        }
+    */
+
     const getWeatherInfo = (cityName,lat,lon)=>{
-            do {
-                
+
+            // do-while 
+        do {   
             
-            currentData.innerHTML = "";
-            dataCards.innerHTML = "";
+            // clearing all the data inside both the display sections
+                currentData.innerHTML = "";
+                dataCards.innerHTML = "";
             
             
-        //API for collecting current weather data having 1 Array
-            const currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+            //API for collecting current weather data having 1 Array
+                const currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
             
             
             
             //fetching current weather data and displaying it
-            fetch(currentWeatherAPI)
-            .then(response => response.json())
-            .then(data => {
-                console.log("current weather data fetched from API\n",data,"\n_______________________________________");
-                displayWeatherInfo(cityName,data,0);
+                fetch(currentWeatherAPI)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("current weather data fetched from API\n",data,"\n_______________________________________");
+                    displayWeatherInfo(cityName,data,0);
 
-            })
-            .catch(()=>{
-                cityInput.value = "";
-                alert("An error occurred while fetching the weather forecast!");
-            });
+                })
+                .catch(()=>{
+                    cityInput.value = "";
+                    alert("An error occurred while fetching the weather forecast!");
+                });
 
-        //API for collecting weather data of 5 days within every 3 hours 
-            const weatherDataAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+            //API for collecting weather data of 5 days within every 3 hours 
+                const weatherDataAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
 
-            fetch(weatherDataAPI)
-            .then(response => response.json())
-            .then(data => {
-                
-                console.log("Weather data for 5-Days fetched from API\n",data,"\n_______________________________________");
-                
-                //Have to filter data to get unique records for 5 days forecast and then display it
+                fetch(weatherDataAPI)
+                .then(response => response.json())
+                .then(data => {
                     
-                    //empty array to store only unique dates encountered
-                    const uniqueDate = [];
-
-                    // empty array to store unique records
-                    const fiveDaysData = [];
+                    console.log("Weather data for 5-Days fetched from API\n",data,"\n_______________________________________");
                     
-                    
-                    //using foreach method on list array of data
-                    data.list.forEach(record => {
-                        /*for each record,
-                            *extracting recordDate by splitting it using "whitespace" as separator and retreiving first part
-                            *then this recordDate should not be inside uniqueDate array AND should not be equal to currentDate
-                                **if it passes both conditions, add recordDate to uniqueDate and record to fiveDaysData
-                                **call displayWeatherInfo with parameters: cityName,record and fiveDaysData array's length as index
-                        */
-                        const recordDate = record.dt_txt.split(" ")[0];
+                    //Have to filter data to get unique records for 5 days forecast and then display it
                         
-                        if (!uniqueDate.includes(recordDate)&&(recordDate != currentDate)) {
-                                // // return uniqueDate.push(recordDate);
-                                uniqueDate.push(recordDate);
-                                fiveDaysData.push(record);
-                                displayWeatherInfo(cityName,record,fiveDaysData.length);
-                                
-                        }
+                        //empty array to store only unique dates encountered
+                        const uniqueDate = [];
+
+                        // empty array to store unique records
+                        const fiveDaysData = [];
+                        
+                        
+                        //using foreach method on list array of data
+                        data.list.forEach(record => {
+                            /*for each record,
+                                *extracting recordDate by splitting it using "whitespace" as separator and retreiving first part
+                                *then this recordDate should not be inside uniqueDate array AND should not be equal to currentDate
+                                    **if it passes both conditions, add recordDate to uniqueDate and record to fiveDaysData
+                                    **call displayWeatherInfo with parameters: cityName,record and fiveDaysData array's length as index
+                            */
+                            const recordDate = record.dt_txt.split(" ")[0];
                             
+                            if (!uniqueDate.includes(recordDate)&&(recordDate != currentDate)) {
+                                    // // return uniqueDate.push(recordDate);
+                                    uniqueDate.push(recordDate);
+                                    fiveDaysData.push(record);
+                                    displayWeatherInfo(cityName,record,fiveDaysData.length);
+                                    
+                            }
+                                
+                            
+                        });
                         
-                    });
-                    
-                    console.log("Weather data filtered to get 5 days forecast records:\n",fiveDaysData,"\n_______________________________________");
+                        console.log("Weather data filtered to get 5 days forecast records:\n",fiveDaysData,"\n_______________________________________");
   
                     
-             })
-            .catch(()=>{
-                cityInput.value = "";
-                alert("An error occurred while fetching the weather forecast!");
-            });
+                })
+                .catch(()=>{
+                    // handling api fail to fetch error
+                    cityInput.value = "";
+                    alert("An error occurred while fetching the weather forecast!");
+                });
+
             n = 1;
+
         } while (n==0);
     }
 
-//getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
+//getCityInfo()
+    /*->getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
+    {
+        * Parameters required to fetch data : City name and apiid
+        * getting City name from input text field
+        * fetch data using API url and parameters
+        * calling createCityList() array to add city to localStorage array and drop-down menu
+        * getting required parameters: latitude and longitude from data
+        * calling getWeatherInfo(CityName,lat,lon) function to get weather information using API and display it.
+        * catch(error): displaying error if api request not fulfilled.
+    }*/
+
     const getCityInfo=()=>{
 
-        
+        // adding animation to weatherDisplay section to appear on screen when user clicks button
         weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
-        console.log("search button id:");
+        
         
         //getting city name from input field and trimming all the white spaces
         const cityName = cityInput.value.trim();
 
+        // if cityName is empty, return with alert to the user
         if(!cityName){
             return alert("Blank Input! Please enter a valid City Name.");
         }
 
+        // API TO GET COORDINATES FROM CITY NAME
         const geocodingAPIUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`;
 
+        // fetching data from the API
         fetch(geocodingAPIUrl)
         .then(response => response.json())
         .then(data =>{
@@ -206,6 +249,7 @@
                 return alert(`No coordinates found for ${cityName},Enter valid Input.`);
                 
             }
+            // calling createCityList() array to add city to localStorage array and drop-down menu
             createCityList();
             console.log("Data fetched for finding city coordinates from name\n",data,"\n_______________________________________");
             
@@ -216,19 +260,43 @@
             getWeatherInfo(name,lat,lon);
 
         }).catch(() => {
+            // Handling API Fail
             alert("An error occurred while getting coordinates of city, Please try again!");
         });
     }
 
 //getUserLocation() function to get user location coordinates and city name using reverse geocoding api
+    /*->getUserLocation():
+    {
+        *The getCurrentPosition() method of the Geolocation interface is used to get the current position of the device.
+        
+            Syntax: navigator.geolocation.getCurrentPosition(success, error, options)
+            Parameter Values:
+            Parameter	Type	    Description
+            success	 	Required.   A callback function that takes a Position object as its sole input parameter
+            error	 	Optional.   A callback function that takes a PositionError object as its sole input parameter
+
+            (i) function success(position): if successful to get position coordinates of user
+            {
+                *getting latitude,longitude values that are inside position.coords
+                *getting city name from lat,lon parameters using reverse geocoding api tool from OpenWeather.com
+                *calling getWeatherInfo(cityName,lat,lon) to get and display weather data of user's current location
+                *catch(error) if cannot find name of city
+            }
+            
+            (ii) function error(positionError): if failed to get location
+            {
+                *if (error == PERMISSION DENIED BY USER TO ACCESS THEIR LOCATION),send alert.
+                *else, location request error
+            }
+
+        calling this method with above two callback functions: navigator.geolocation.getCurrentPosition(success, error);
+    }*/
+
     const getUserLocation = () =>{
 
-        
-        
         //CLICK EVENT FOR LOCATION BUTTON
         weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
-
-        console.log("location button id:");
 
         //callback function success, if getCurrentPosition() method gets successful
         function success(position){
@@ -240,52 +308,50 @@
             //getting City Name from coordinates using reverse geocoding API
             const reverseGeocodingAPI =`http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`;
 
+            // fetching data and processing it
             fetch(reverseGeocodingAPI)
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched city name and other data from reverse geocoding API:\n",data,"\n_______________________________________");
 
+                // extracting name of the city from fetched data
                 const{name} = data[0];
 
-                console.log(name,latitude,longitude);
-
+                // calling getWeatherInfo() with parameters passed to get weather data from API and display it
                 getWeatherInfo(name,latitude,longitude);
 
             }).catch(() => {
+                // Handling API Fail
                 alert("An error occurred while fetching the city name!Please Try again.");
             });
         }
 
         //callback function error, if getCurrentPosition() method fails
         function error(err){
+            // alert if user denied permission for accessing location
             if (err.code === err.PERMISSION_DENIED) {
                 alert("Location Request denied by User! Please reset location permission to access weather information.");
-            } else {
+            } else { //alert for any other error
                 alert("Error in fetching current location! Please reset location permission.");
             }
         }
         //getting current position coordinates of user using getCurrentPosition() method of navigator interface
         navigator.geolocation.getCurrentPosition(success,error);
     
-}
+    }
 
     
+
+// displaying drop-down menu as soon as someone hovers mouse over input text field or click on it
     
+    cityInput.addEventListener("mouseover",()=>{ //hovering mouse on it
 
-
-    
-    
-    
-
-
-
-// displaying drop-down menu as soon as someone hovers mouse over input text field
-    cityInput.addEventListener("mouseover",()=>{
+        // if dropdown list has no text-content, then don't display it
         if(dropdown.length !=0)
             dropdown.style.display = "block";
     });
 
-    cityInput.addEventListener("mousedown",()=>{
+    cityInput.addEventListener("mousedown",()=>{ //clicking on input field to enter text
         if(dropdown.length !=0)
             dropdown.style.display = "block";
     });
@@ -300,26 +366,28 @@
 
     });
 
+//function setArray() to store array consisting city names inside localStorage 
     function setArray(){
 
-        console.log("array passed to set() function",cityNames);
-
+        
+        // avoiding any empty element to be stored inside localStorage
         cityNames = cityNames.filter(function (el) {
             return el != "";
         });
 
-        console.log("filtered array",cityNames);
-        let string = JSON.stringify(cityNames);
-        
-        
-        
+        console.log("array passed to localStorage",cityNames);
+
+        // convert array into string and store it in localStorage
+        let string = JSON.stringify(cityNames); 
         localStorage.setItem("cityNames", string); 
     }
 
     
     
-    
+//function createCityList() to store valid city names entered by user inside an array     
   function createCityList(){
+
+    //getting city name from input field
     let cityName = cityInput.value;
     
     //finding if city name already exist in array, if result index == -1 then only city name will be added to array
@@ -327,7 +395,7 @@
    
         if(resultIndex == -1){
 
-            //if array length reaches 5 elements,then popping last element as we want to recent 5 city names history
+            //if array length reaches 5 elements,then popping last element as we want  recent 5 city names history
             if(cityNames.length ==5){
                 cityNames.pop();
             }
@@ -339,26 +407,34 @@
             cityNames.unshift(cityName);
         }
        
+        // calling setArray() function to set array in localStorage
         setArray();
        
-       addCityToList(cityNames);
-  }
+        // calling addCityToList with created list as parameter to add array to drop-down list
+        addCityToList(cityNames);
+    }
 
+// function addCityToList(array passed by either createList function or retrieved array from localStorage)
   function addCityToList(cityNames){
             
-    
+    // printing passed array to the console
     console.log("Recently searched valid city names: ",cityNames,"\n__________________________________");
     
+    // if city names array's length is equal to 1 or less, set size of select box to 2
     if(cityNames.length <=1){
         dropdown.setAttribute("size", "2");
-    }else{
+    
+    }else{ //else set size of select box equal to length of cityNames array
+       
         let length = ""+cityNames.length;
         dropdown.setAttribute("size", length);
     }
 
+    // clearing drop-down menu
     let html = ``;
     dropdown.innerHTML = "";
     
+    // adding each city name to drop-down by creating html 
     cityNames.forEach((city)=>{
         html = `<option>${city}</option>`;
         dropdown.innerHTML += html;
@@ -380,13 +456,6 @@
 
   
 
-  
-
-
-
-
-
-
 
 /* WEATHER API REQUESTS WORKFLOW: (notes for my understanding :)
 
@@ -405,64 +474,56 @@
             2. REVERSE GEOCODING that converts the geographical coordinates into the names of the location
 
             3. CURRENT WEATHER DATA API to access current weather data for any location on Earth using Latitude,Longitude and apiid
+
+
+
+            WORK FLOW DIAGRAM:
+                    ___________________________________________________________________________________________________________________                        
+                    |    LocalStorage getItem => if data present, => convert data in array => Add to drop-down list AddToList(array)   |
+                    |       [getArray()]     \                                                                                         |
+                    |                         `->if not present, => assign array as empty =>set empty array in LocalStorage[setArray()]|           |
+                    |__________________________________________________________________________________________________________________|
+                                                                        ||
+                                                                        ||
+                                                                        ||
+                                                                        \/
+    ____________________________________________________________________________________________________________________________________________
+    |PART 1: DISPLAYING WEATHER INFORMATION FROM CITY NAME USER ENTERED || PART 2: DISPLAYING WEATHER INFORMATION USING USER'S CURRENT LOCATION|
+    |___________________________________________________________________||______________________________________________________________________|
+                                    ||                                                                  ||                                                 
+                                    ||                                                                  ||
+                                    ||                                                                  ||
+                                    \/                                                                  \/
+              ______________________________________________                     _____________________________________________________                        
+              | Called getCityInfo() on search Button click|                     | Called getUserLocation on Use Location Button click|
+              |____________________________________________|                     |____________________________________________________| 
+                        [called 2 functions] \                                                               /
+                    ||                        \                                                             /
+                    ||                         \                                                           /    
+                    \/                          \                                                         /
+_________________________________________        \    _____________________________________________      /                        
+| Called createCityList() to create List |        `-> |    Called getWeatherInfo(name,lat,lon);    |  <-'
+|________________________________________|            |____________________________________________|     
+   ||                     ||                                                                  ||                                                 
+   \/                     ||                                                                  ||
+___________________       ||                                                                  ||
+|called setArray()|       ||
+|_________________|       \/                                                                  \/
+    _________________________________                _____________________________________________________________________________________                        
+    |Called addCityToList() to add  |                | Called =>displayWeatherInfo(cityName,data,0) for current Weather display           |
+    |cityName array to dropdown list|                |        =>displayWeatherInfo(cityName,record,array.length) for 5-Day Weather display|
+    |_______________________________|                |____________________________________________________________________________________| 
+                          ||                                                                  ||                                                 
+                          ||                                                                  ||
+                          ||                                                                  ||
+                          ||
+                          \/                                                                  \/
+    ________________________________________                       ______________________________________________                        
+    |Added cityName array to dropdown list  |                     | Displayed current weather data and           |
+    |AND Stored it in localStorage          |                     | 5-day forecast on any of the 2 buttons click.|
+    |_______________________________________|                     |______________________________________________|  
+    
+    
         
-      ->getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
-        {
-            * Parameters : City name and apiid
-            * getting City name for input text field
-            * fetch data using API url and parameters
-            * getting required parameters: latitude and longitude from data
-            * calling displayWeatherInfo(CityName,lat,lon) function to get weather information using API and display it.
-            * catch(error): displaying error if api request not fulfilled.
-        }
-
-      ->displayWeatherInfo(CityName,lat,lon) - get weather info using passed parameters and displaying it
-        {
-            *fetch weather information using API URL and parameters
-            *Filter data as we require 6 weather data array: 0th index is current weather and 1-5th index,5 Days forecast and store it in a array
-            *Clearing input and clearing html inside specific display div's sections
-            *For each array and index getting innerHtml based on our required condition by calling createHtml(CityName,array,index)
-            *[if(index=0),insert HTML in current weather div][else, insert html in 5-day forecast div]
-            *catch(error)
-        }
-    
-      ->createHtml(CityName,array,index) - to return  innerHtml of display divs based on index value 
-       {
-            *if(index=0): create innerHTML for current weather display section and get data from array AND return it
-            *else: create innerHTML for 5-day forecast cards and get data from array AND return it
-       }
-      
-      ->getUserLocation() - to get the current position of the device
-        {
-            *The getCurrentPosition() method of the Geolocation interface is used to get the current position of the device.
-               
-                Syntax: navigator.geolocation.getCurrentPosition(success, error, options)
-                Parameter Values:
-                Parameter	Type	    Description
-                success	 	Required.   A callback function that takes a Position object as its sole input parameter
-                error	 	Optional.   A callback function that takes a PositionError object as its sole input parameter
-
-                (i) function success(position): if successful to get position coordinates of user
-                 {
-                    *getting latitude,longitude values that are inside position.coords
-                    *getting city name from lat,lon parameters using reverse geocoding api tool from OpenWeather.com
-                    *calling displayWeatherInfo(cityName,lat,lon) to display weather data of user's current location
-                    *catch(error) if cannot find name of city
-                 }
-                
-                (ii) function error(positionError): if failed to get location
-                 {
-                    *if (error == PERMISSION DENIED BY USER TO ACCESS THEIR LOCATION),send alert.
-                    *else, location request error
-                 }
-
-             calling this method with above two callback functions: navigator.geolocation.getCurrentPosition(success, error);
-        }
-    
-    PART 1: DISPLAYING WEATHER INFORMATION FROM CITY NAME USER ENTERED -"City name known, coordinates unknown"
-        [Click Event on searchBtn] => [getCityInfo()] => [displayWeatherInfo(CityName,lat,lon)] 
-    
-    PART 2: DISPLAYING WEATHER INFORMATION USING USER'S CURRENT LOCATION- "Coordinates known, city name unknown"
-        [Click Event on LocationBtn] => [getUserLocation()] => [displayWeatherInfo(CityName,lat,lon)]
 
 */ 

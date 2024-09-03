@@ -717,6 +717,10 @@ video {
   padding: 0.5rem;
 }
 
+.p-3 {
+  padding: 0.75rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -836,18 +840,20 @@ video {
 }
 
 :root {
+  /* root global variable to store weather data cards with fixed width and height */
   --cardWidth: 150px;
   --cardHeight: 200px;
 }
 
 body{
-  /* background-image: linear-gradient(to bottom, #37d1ff, #19b6ed, #009cda, #0082c5, #0069ae, #005aa1, #004c94, #003e87, #023681, #052f7c, #092775, #0e1f6f); */
+  /* styling whole body of document: font,background as image */
   background-image: url("./Images/beautiful_white_clouds_yellow_blue_sky_hd_sky.jpg");
-  /* background-size: 100vw 100vh;  */
   background-size:100% 100%;
   background-repeat: no-repeat;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Header styling */
 
 .header{
   width: 100%;
@@ -859,6 +865,22 @@ body{
   box-shadow: 0px 20px 30px rgba(174, 175, 175, 0.514);
 }
 
+/* search div containing input and search button, order 1 */
+
+.search{
+  width: 50%;
+  order: 1;
+}
+
+/* Input text field styling */
+
+.searchInput{
+  width: 90%;
+  position: relative;
+}
+
+/* searchBtn styling and effect on clicking mouse */
+
 .searchBtn{
   width: 10%;
 }
@@ -868,15 +890,7 @@ body{
   transform: translateY(4px);
 }
 
-.search{
-  width: 50%;
-  order: 1;
-}
-
-.searchInput{
-  width: 90%;
-  position: relative;
-}
+/* styling of "or" seperator text,order 2 */
 
 .stext{
   order: 2;
@@ -888,32 +902,7 @@ body{
   text-align: center;
 }
 
-.dropdown-content{
-  display: none;
-  background-color: transparent;
-  overflow: hidden;
-  width: 350px;
-  z-index: 1;
-  margin-top: 5px;
-  position: absolute;
-}
-
-.dropdown-content option {
-  background-color: #ecececf9;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  font-weight: 700;
-  box-shadow: 5px 10px 20px 5px rgba(172, 172, 172, 0.251);
-  margin-bottom: 2px;
-}
-
-.dropdown-content option:hover {
-  background-color: #3b3b3b;
-  color:white;
-  cursor:pointer;
-}
+/* locationBtn styling, order 3 */
 
 .locationBtn{
   order:3;
@@ -929,24 +918,110 @@ body{
   transition: ease-out 0.4s;
 }
 
+/* effect of moving mouse over location button */
+
 .locationBtn:hover{
   box-shadow: inset 400px 50px 0 0 #0b54f0;
   color: white;
 }
 
-.dataCards{
-  display: flex;
-  justify-content: flex-start;
+/* styling drop-down list */
+
+.dropdown-content{
+  display: none;
+  background-color: transparent;
+  overflow: hidden;
+  width: 350px;
+  z-index: 1;
+  margin-top: 5px;
+  position: absolute;
 }
+
+/* styling drop-down list options */
+
+.dropdown-content option {
+  background-color: #ecececf9;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-weight: 700;
+  box-shadow: 5px 10px 20px 5px rgba(172, 172, 172, 0.251);
+  margin-bottom: 2px;
+}
+
+/* styling drop-down list options on hover state */
+
+.dropdown-content option:hover {
+  background-color: #3b3b3b;
+  color:white;
+  cursor:pointer;
+}
+
+/* display section to be not visible on page load */
+
+.weatherDisplay{
+  opacity: 0;
+}
+
+/* styling text elements of currentData section */
+
+.currentData h2{
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.currentData h4{
+  margin-left: 8px;
+}
+
+/* 5-day Forecast heading styling */
 
 .forecastHeading{
   opacity: 0;
   position: absolute;
 }
 
-.weatherDisplay{
-  opacity: 0;
+/* weather data cards List styling */
+
+.dataCards{
+  display: flex;
+  justify-content: flex-start;
 }
+
+/* styling h2 text elements of dataCards */
+
+.dataCards h2{
+  font-size: 18px;
+  line-height: 28px;
+}
+
+/* weather data card styling */
+
+.card{
+  padding: 10px;
+  width: var(--cardWidth);
+  height: var(--cardHeight);
+  margin-right: 10px;
+}
+
+/* styling inner-parts of a card */
+
+/* order 1 */
+
+.details{
+  order:1;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+/* order 2 */
+
+.currentImg{
+  order: 2;
+}
+
+/* keyframe for the animation added to display section through tailwind css */
 
 @keyframes fade-in {
   0%{
@@ -970,42 +1045,14 @@ body{
   }
 }
 
-.dataCards h2{
-  font-size: 18px;
-  line-height: 28px;
-}
-
-.currentData h2{
-  font-size: 18px;
-  line-height: 28px;
-}
-
-/* .currentData{
-    height: 250px;;
-} */
-
-.currentData h4{
-  margin-left: 8px;
-}
-
-.card{
-  padding: 10px;
-  width: var(--cardWidth);
-  height: var(--cardHeight);
-  margin-right: 10px;
-}
-
-.details{
-  order:1;
-  width: -moz-max-content;
-  width: max-content;
-}
-
-.currentImg{
-  order: 2;
-}
+/* media query for screen width <=1250px */
 
 @media only screen and (max-width: 1250px) {
+  .currentData{
+    width:50%;
+    height: calc(100%/1);
+  }
+
   .dataCards{
     flex-wrap: wrap;
   }
@@ -1016,18 +1063,12 @@ body{
     margin-bottom: 15px;
   }
 
-  .currentData{
-    height: calc(100%/1);
-  }
-
   .details{
     margin-bottom: 60px;
   }
-
-  .currentData{
-    width:50%;
-  }
 }
+
+/* media query for screen width <=1050px */
 
 @media only screen and (max-width: 1050px) {
   .searchBar{
@@ -1035,8 +1076,22 @@ body{
     padding-left: 5%;
   }
 
+  .currentData h2{
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .currentData h4{
+    font-size: 19px;
+  }
+
   .display{
     flex-direction: column;
+  }
+
+  .details{
+    order:2;
+    margin-bottom: 20px;
   }
 
   .currentImg{
@@ -1045,11 +1100,6 @@ body{
     width: 100%;
     margin-left:30px;
     flex-direction: row;
-  }
-
-  .details{
-    order:2;
-    margin-bottom: 20px;
   }
 
   .c_icon{
@@ -1066,24 +1116,13 @@ body{
     font-size: 18px;
     line-height: 28px;
   }
-
-  .currentData h2{
-    font-size: 18px;
-    line-height: 28px;
-  }
-
-  .currentData h4{
-    font-size: 19px;
-  }
 }
 
-@media only screen and (max-width: 768px){
-  .currentData {
-    width: 100%;
-  }
+/* media query for screen width <=768px */
 
-  .currentData h4 {
-    font-size: 22px;
+@media only screen and (max-width: 768px){
+  body{
+    background-repeat:repeat-y;
   }
 
   .searchForm{
@@ -1096,18 +1135,19 @@ body{
     height: 60px;
   }
 
-  .locationBtn{
-    order:1;
-    font-size:x-large;
-    padding: 6px 5px;
+  .search{
+    order: 3;
   }
 
   .stext{
     order: 2;
+    font-size: 2.3rem;
   }
 
-  .search{
-    order: 3;
+  .locationBtn{
+    order:1;
+    font-size:x-large;
+    padding: 6px 5px;
   }
 
   .dropdown-content{
@@ -1120,39 +1160,12 @@ body{
     height: 60px;
   }
 
-  .stext{
-    font-size: 2.3rem;
-  }
-
   .weatherDisplay{
     flex-direction: column;
   }
 
-  .display{
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .currentImg{
-    order: 2;
-    flex-direction: row;
-    width:50%;
-    padding-top: 0;
-  }
-
-  .details{
-    order:1;
-    width:50%;
-  }
-
-  .c_icon {
-    width: 45%;
-    margin-bottom: 20px;
-  }
-
-  .c_text{
-    width: 55%;
-    margin-left: 25px;
+  .currentData {
+    width: 100%;
   }
 
   .currentData h2 {
@@ -1163,6 +1176,33 @@ body{
 
   .currentData h4 {
     font-size: 25px;
+  }
+
+  .display{
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .details{
+    order:1;
+    width:50%;
+  }
+
+  .currentImg{
+    order: 2;
+    flex-direction: row;
+    width:50%;
+    padding-top: 0;
+  }
+
+  .c_icon {
+    width: 45%;
+    margin-bottom: 20px;
+  }
+
+  .c_text{
+    width: 55%;
+    margin-left: 25px;
   }
 
   .dataCards h2{
@@ -1176,14 +1216,12 @@ body{
     height: var(--cardHeight);
   }
 
-  body{
-    background-repeat:repeat-y;
-  }
-
   .card h4{
     font-size: larger;
   }
 }
+
+/* media query for screen width <=3760px */
 
 @media only screen and (max-width: 376px){
   .searchForm {
@@ -1196,6 +1234,23 @@ body{
     width:100%;
   }
 
+  .searchInput {
+    width: 80%;
+  }
+
+  .searchBtn {
+    width: 20%;
+  }
+
+  .stext {
+    font-size: 2rem;
+    height: 40px;
+  }
+
+  .locationBtn {
+    font-size: larger;
+  }
+
   .dropdown-content{
     margin-left: 5%;
   }
@@ -1206,25 +1261,27 @@ body{
     letter-spacing: 0.8px;
   }
 
-  .locationBtn {
-    font-size: larger;
+  .currentData{
+    box-shadow: 10px 20px 30px rgba(29, 29, 29, 0.646),-5px 0px 30px rgba(29, 29, 29, 0.646);
   }
 
-  .stext {
-    font-size: 2rem;
-    height: 40px;
+  .currentData h2{
+    font-size: 25px;
+    line-height: 30px;
   }
 
-  .searchInput {
-    width: 80%;
-  }
-
-  .searchBtn {
-    width: 20%;
+  .currentData h4{
+    font-size: 22px;
   }
 
   .display{
     flex-direction: column;
+  }
+
+  .details{
+    order:2;
+    margin-bottom: 10px;
+    width: 90%;
   }
 
   .currentImg{
@@ -1233,12 +1290,6 @@ body{
     width: 100%;
     margin-left:30px;
     flex-direction: row;
-  }
-
-  .details{
-    order:2;
-    margin-bottom: 10px;
-    width: 90%;
   }
 
   .c_icon{
@@ -1252,30 +1303,17 @@ body{
     margin-left: 30px;
   }
 
-  .currentData h2{
-    font-size: 25px;
-    line-height: 30px;
-  }
-
-  .currentData h4{
-    font-size: 22px;
-  }
-
-  .dataCards h2{
-    font-size: 22px;
-    line-height: 28px;
-  }
-
-  .currentData{
-    box-shadow: 10px 20px 30px rgba(29, 29, 29, 0.646),-5px 0px 30px rgba(29, 29, 29, 0.646);
+  .forecastHeading{
+    opacity: 1;
   }
 
   .dataCards{
     margin-left: 50px;
   }
 
-  .forecastHeading{
-    opacity: 1;
+  .dataCards h2{
+    font-size: 22px;
+    line-height: 28px;
   }
 
   .card{

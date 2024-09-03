@@ -32,15 +32,25 @@
         <section class="searchBar flex w-[100vw] flex-col px-[15%] iPhone:px-0">
             
             <form onsubmit="return false" class="searchForm flex">
+                
+                <!-- div to group input field and search button -->
                 <div class="search flex">
                     <input  class="searchInput p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left iPhone:text-[20px] ipadMini:text-[25px]" type="text" placeholder="Enter your City name to get Weather data..">
                     <button type="submit" onclick="getCityInfo()" class="searchBtn w-16 p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
                 </div>
+
+                <!-- separator between both the options: "or" -->
                 <h2 class="stext font-bold text-gray-900 font-mono">or</h2>
+
+                <!--location button to get user coordinates  -->
                 <button class="locationBtn rounded-md" onclick="getUserLocation()"><i class="fa-solid fa-location-crosshairs fa-spin" style="color: #2563eb; font-size: larger; margin: 2px; margin-right: 5px; "></i>Use my Current Location</button>
             
             </form>
+
+            <!-- dropdown menu to store recent history of searched cities -->
             <div class="dropdown">
+
+                <!-- <select> to store city names entered by user -->
                 <select class="dropdown-content">
                   
                 </select>
@@ -59,7 +69,11 @@
             
             <!-- div to display 5 days weather forecast of the city user entered -->
                 <div class="fiveDayForecast  text-white ml-5 iPhone:mt-[60px] ipadMini:mt-[30px] ipadMini:ml-0">
+                    
+                    <!-- forecast display section heading -->
                     <h1 class="forecastHeading text-3xl font-bold text-white m-4 bg-[#137fd7e6] bg-opacity-80">5 Days Forecast:</h1>
+                    
+                    <!-- cards display list -->
                     <ul class="dataCards iPhone:pt-24">
                         
                             
