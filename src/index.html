@@ -19,21 +19,21 @@
 
 <body>
     <!-- Header of the page -->
-    <header class="flex m-4 fixed">
+    <header class="z-[3] fixed w-screen flex p-1">
         <!-- logo and Heading of the page -->
         <img src="./Images/cloudy.png" class="h-16" alt="logo">
         <h1 id="Heading" class="text-3xl font-bold text-white pt-3 pl-2">WeatherUpdate</h1>
     </header>
 
     <!-- Main body -->
-    <main class="block w-screen h-screen pt-32 max-[768px]:pt-20">
+    <main class="block w-screen h-screen pt-32 iPhone:pt-28 ipadMini:pt-20">
 
         <!-- Search bar section having text input,search button and drop-down menu having current location button -->
-        <section class="searchBar flex w-[100vw] flex-col px-[15%]">
+        <section class="searchBar flex w-[100vw] flex-col px-[15%] iPhone:px-0">
             
             <form onsubmit="return false" class="searchForm flex">
                 <div class="search flex">
-                    <input  class="searchInput p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left max-[768px]:text-[25px]" type="text" placeholder="Enter your City name to get Weather data..">
+                    <input  class="searchInput p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left iPhone:text-[20px] ipadMini:text-[25px]" type="text" placeholder="Enter your City name to get Weather data..">
                     <button type="submit" onclick="getCityInfo()" class="searchBtn w-16 p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
                 </div>
                 <h2 class="stext font-bold text-gray-900 font-mono">or</h2>
@@ -49,17 +49,18 @@
         </section>
 
         <!-- Weather Data Display section having divs to display all the data in a presentable manner -->
-        <section class="weatherDisplay flex mt-16 mx-14 justify-items-center md:mx-10 max-[768px]:mt-10">
+        <section class="weatherDisplay flex mt-16 mx-14 justify-items-center  ipadMini:mx-8 ipadMini:mt-10">
 
             <!-- div to display current weather forecast of the city user entered -->
-                <div class="currentData  bg-sky-900 bg-opacity-50 hover:shadow-inner  text-white font-bold max-[768px]:opacity-90">
+                <div class="currentData  bg-sky-900 bg-opacity-50 hover:shadow-inner  text-white font-bold iPhone:bg-[#137fd7b0] iPhone:bg-opacity-60 iPhone:hover:shadow-none">
                     
                 </div>
 
             
             <!-- div to display 5 days weather forecast of the city user entered -->
-                <div class="fiveDayForecast  text-white ml-5 max-[768px]:mt-[30px]">
-                    <ul class="dataCards">
+                <div class="fiveDayForecast  text-white ml-5 iPhone:mt-[60px] ipadMini:mt-[30px] ipadMini:ml-0">
+                    <h1 class="forecastHeading text-3xl font-bold text-white m-4 bg-[#137fd7e6] bg-opacity-80">5 Days Forecast:</h1>
+                    <ul class="dataCards iPhone:pt-24">
                         
                             
                     </ul>

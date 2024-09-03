@@ -42,7 +42,15 @@
     
    
      
-    // addCityToList(retrievedArray);
+    const header = document.querySelector("header");
+
+      window.addEventListener("scroll",()=>{
+        if(window.scrollY >0){
+          header.classList.add("style_header");
+        }else{
+          header.classList.remove("style_header");
+        }
+    })
     
 
 
@@ -60,7 +68,7 @@
 
             //creating html for the display section with extracted data
             html = `<h2 class="px-4 pt-4">${cityName} (${currentDate})</h2>
-                    <div class="display w-[100%] flex gap-2 max-[768px]:gap-5">
+                    <div class="display w-[100%] flex gap-2 max-[768px]:gap-5 iPhone:gap-0">
                         <div class="details w-[60%] pl-4">
                             <h4 class="mt-2">Temperature: ${data.main.temp} °C</h4>
                             <h4>Wind: ${data.wind.speed} M/S</h4>
@@ -78,7 +86,7 @@
         }else{ //Displaying Information of 5 Days Forecast
             
             //Creating Weather cards with extracted information from data
-            html = `<li class="card bg-black bg-opacity-60 md:opacity-70">
+            html = `<li class="card bg-black bg-opacity-60  iPhone:bg-opacity-[0.7] ipadMini:opacity-[1]">
                             <h2 class="font-bold">${data.dt_txt.split(" ")[0]}</h2>
                             <div class="daysImg flex py-2">
                                 <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" class="w-[45%] bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
