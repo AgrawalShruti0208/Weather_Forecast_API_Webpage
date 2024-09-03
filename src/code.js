@@ -59,15 +59,17 @@
             
 
             //creating html for the display section with extracted data
-            html = `<div class="details w-[70%] mt-4 pl-4 pt-3">
-                        <h2>${cityName} (${currentDate})</h2>
-                        <h4 class="mt-2">Temperature: ${data.main.temp} °C</h4>
-                        <h4>Wind: ${data.wind.speed} M/S</h4>
-                        <h4>Humidity: ${data.main.humidity}%</h4>
-                    </div>
-                    <div class="currentImg w-[30%] pr-4 pt-5">
-                        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" class="bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
-                        <h2 class="pt-2">${data.weather[0].description}</h2>
+            html = `<h2 class="px-4 pt-4">${cityName} (${currentDate})</h2>
+                    <div class="display w-[100%] flex gap-2 max-[768px]:gap-5">
+                        <div class="details w-[60%] pl-4">
+                            <h4 class="mt-2">Temperature: ${data.main.temp} °C</h4>
+                            <h4>Wind: ${data.wind.speed} M/S</h4>
+                            <h4>Humidity: ${data.main.humidity}%</h4>
+                        </div>
+                        <div class="currentImg pr-[2px] flex flex-col">
+                            <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" class="c_icon bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
+                            <h2 class="c_text pt-2">${data.weather[0].description}</h2>
+                        </div>
                     </div>`;
             
             currentData.innerHTML = html;
@@ -76,7 +78,7 @@
         }else{ //Displaying Information of 5 Days Forecast
             
             //Creating Weather cards with extracted information from data
-            html = `<li class="card bg-black bg-opacity-60">
+            html = `<li class="card bg-black bg-opacity-60 md:opacity-70">
                             <h2 class="font-bold">${data.dt_txt.split(" ")[0]}</h2>
                             <div class="daysImg flex py-2">
                                 <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" class="w-[45%] bg-white bg-opacity-45 rounded-full shadow-inner shadow-white hover:scale-[1.2]" alt="weather icon">
@@ -91,9 +93,12 @@
         }
     }
 
-
+        let n = 0;
 //getWeatherInfo(CityName,lat,lon) - get weather info using passed parameters and displaying it
     const getWeatherInfo = (cityName,lat,lon)=>{
+            do {
+                
+            
             currentData.innerHTML = "";
             dataCards.innerHTML = "";
             
@@ -163,11 +168,14 @@
                 cityInput.value = "";
                 alert("An error occurred while fetching the weather forecast!");
             });
+            n = 1;
+        } while (n==0);
     }
 
 //getCityInfo()- Get Latitude and Longitude coordinates from city name using Direct Geocoding API tool
     const getCityInfo=()=>{
 
+        
         weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
         console.log("search button id:");
         
@@ -208,7 +216,7 @@
     const getUserLocation = () =>{
 
         
-
+        
         //CLICK EVENT FOR LOCATION BUTTON
         weatherDisplay.style.animation = "fade-in 3s ease-in-out forwards";
 
@@ -285,7 +293,18 @@
     });
 
     function setArray(){
+
+        console.log("array passed to set() function",cityNames);
+
+        cityNames = cityNames.filter(function (el) {
+            return el != "";
+        });
+
+        console.log("filtered array",cityNames);
         let string = JSON.stringify(cityNames);
+        
+        
+        
         localStorage.setItem("cityNames", string); 
     }
 

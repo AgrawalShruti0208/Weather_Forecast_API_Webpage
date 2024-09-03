@@ -26,16 +26,18 @@
     </header>
 
     <!-- Main body -->
-    <main class="block w-screen h-screen pt-32">
+    <main class="block w-screen h-screen pt-32 max-[768px]:pt-20">
 
         <!-- Search bar section having text input,search button and drop-down menu having current location button -->
         <section class="searchBar flex w-[100vw] flex-col px-[15%]">
             
             <form onsubmit="return false" class="searchForm flex">
-                <input  class="searchInput w-[380px] p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left" type="text" placeholder="Enter your City name to get Weather data..">
-                <button type="submit" id="search" onclick="getCityInfo(this.id)" class="searchBtn w-16 p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
-                <h2 class="text-2xl font-bold text-gray-900 font-mono">or</h2>
-                <button id="location" class="locationBtn rounded-md" onclick="getUserLocation(this.id)"><i class="fa-solid fa-location-crosshairs fa-spin" style="color: #2563eb; font-size: larger; margin: 2px; margin-right: 5px;"></i>Use my Current Location</button>
+                <div class="search flex">
+                    <input  class="searchInput p-2 cursor-text rounded-md rounded-r-none shadow-inner shadow-blue-500 text-blue-900 font-bold float-left max-[768px]:text-[25px]" type="text" placeholder="Enter your City name to get Weather data..">
+                    <button type="submit" onclick="getCityInfo()" class="searchBtn w-16 p-2 bg-blue-600 hover:bg-blue-700 text-white text-lg cursor-pointer rounded-md rounded-l-none shadow-inner shadow-blue-400"> <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i></button>
+                </div>
+                <h2 class="stext font-bold text-gray-900 font-mono">or</h2>
+                <button class="locationBtn rounded-md" onclick="getUserLocation()"><i class="fa-solid fa-location-crosshairs fa-spin" style="color: #2563eb; font-size: larger; margin: 2px; margin-right: 5px; "></i>Use my Current Location</button>
             
             </form>
             <div class="dropdown">
@@ -47,17 +49,17 @@
         </section>
 
         <!-- Weather Data Display section having divs to display all the data in a presentable manner -->
-        <section class="weatherDisplay flex mt-16 mx-14 gap-10">
+        <section class="weatherDisplay flex mt-16 mx-14 justify-items-center md:mx-10 max-[768px]:mt-10">
 
             <!-- div to display current weather forecast of the city user entered -->
-                <div class="currentData bg-sky-900 bg-opacity-50 hover:shadow-inner w-[30%] flex gap-2  text-white font-bold">
+                <div class="currentData  bg-sky-900 bg-opacity-50 hover:shadow-inner  text-white font-bold max-[768px]:opacity-90">
                     
                 </div>
 
             
             <!-- div to display 5 days weather forecast of the city user entered -->
-                <div class="fiveDayForecast  w-[70%]  text-white">
-                    <ul class="dataCards flex">
+                <div class="fiveDayForecast  text-white ml-5 max-[768px]:mt-[30px]">
+                    <ul class="dataCards">
                         
                             
                     </ul>

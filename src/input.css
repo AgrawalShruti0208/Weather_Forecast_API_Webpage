@@ -2,32 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --cardWidth: 150px;
+    --cardHeight: 200px;
+}
+
 body{
     /* background-image: linear-gradient(to bottom, #37d1ff, #19b6ed, #009cda, #0082c5, #0069ae, #005aa1, #004c94, #003e87, #023681, #052f7c, #092775, #0e1f6f); */
     background-image: url("./Images/beautiful_white_clouds_yellow_blue_sky_hd_sky.jpg");
     /* background-size: 100vw 100vh;  */
-    background-size: 100vw 100vh; 
+    background-size:100% 100%;
     background-repeat: no-repeat;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 
- 
+.searchBtn{
+    width: 10%;
+ }
+
 .searchBtn:active {
     box-shadow: 2px 4px 5px hsla(0, 0%, 61%, 0.769);
-    transform: translateY(4px);
-  
+    transform: translateY(4px); 
 }
 
+.search{
+    width: 50%;
+    order: 1;
+}
+
+
+
 .searchInput{
+    width: 90%;
     position: relative;
 }
 
-.searchBar form h2{
+.stext{
+    order: 2;
     text-shadow: 2px 1px 2px rgba(104, 104, 104, 0.801);
-    margin-left: 30px;
-    margin-right:30px;
     margin-top: 3px;
+    width: 5%;
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+    text-align: center;
 }
 
 .dropdown-content{
@@ -61,13 +79,14 @@ body{
 
 
 
-.searchBar form .locationBtn{
+.locationBtn{
+    order:3;
     background-color: white;
     color: #5d5f64;
     padding: 6px 10px;
     display: block;
     font-weight:900;
-    width: 50%;
+    width: 45%;
     text-align: left;
     border: solid 4px  #0b54f0;
     font-size:medium;
@@ -76,9 +95,14 @@ body{
     transition: ease-out 0.4s;
 }
 
-.searchBar form .locationBtn:hover{
+.locationBtn:hover{
     box-shadow: inset 400px 50px 0 0 #0b54f0;
     color: white;
+}
+
+.dataCards{
+    display: flex;
+    justify-content: flex-start;
 }
 
 
@@ -106,14 +130,21 @@ body{
 }
 
   
-
-.weatherDisplay h2{
+.dataCards h2{
     font-size: 18px;
     line-height: 28px;
 }
 
+.currentData h2{
+    font-size: 18px;
+    line-height: 28px;
+}
+
+
+
 .currentData{
     box-shadow:  2px 2px 4px #0c4a6e;
+    
 }
 
 .currentData h4{
@@ -123,9 +154,194 @@ body{
 .fiveDayForecast .dataCards .card{
    box-shadow:  2px 2px 4px black;
    padding: 10px;
-   width: 20%;
+   width: var(--cardWidth);
+   height: var(--cardHeight);
    margin-right: 10px;
 }
+
+.details{
+    order:1;
+    width: max-content;
+}
+.currentImg{
+    order: 2;
+}
+
+
+
+
+@media only screen and (max-width: 1250px) {
+    .dataCards{
+        
+        flex-wrap: wrap;
+        
+    }
+
+    .dataCards .card{
+        width: 200px;
+        height: 250px;
+        margin-bottom: 15px;
+    }
+
+    .currentData{
+        height: calc(100%/1);
+    }
+    
+
+    .details{
+       
+        margin-bottom: 60px;
+    }
+
+   
+    .currentData{
+        width:50%;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
+    .searchBar{
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+
+    .display{
+        flex-direction: column;
+    }
+
+    .currentImg{
+        order: 1;
+        padding-top: 20px;
+        width: 100%;
+        margin-left:30px;
+        flex-direction: row;
+        
+    }
+    .details{
+        order:2;
+        margin-bottom: 20px;
+    }
+
+    .c_icon{
+        width: 30%;
+    }
+    
+    .c_text{
+        width: 70%;
+        margin-top:10px;
+        margin-left: 30px;
+    }
+
+    .dataCards h2{
+        font-size: 18px;
+        line-height: 28px;
+    }
+    
+    .currentData h2{
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+    .currentData h4{
+        font-size: 19px;
+    }
+}
+
+@media only screen and (max-width: 768px){
+    .currentData {
+        width: 100%;
+    }
+
+    .currentData h4 {
+        font-size: 22px;
+    }
+    
+    .searchForm{
+        align-items: center;
+        flex-direction: column;
+        
+    }
+    .searchForm>*{
+        width: 60%;
+        height: 60px;
+    }
+    .locationBtn{
+        order:1;
+        font-size:x-large;
+        padding: 6px 5px;
+    }
+    .stext{
+        order: 2;
+    }
+    .search{
+        order: 3;
+    }
+    .dropdown-content{
+        margin-left: 20%;
+    }
+    .dropdown-content option{
+        font-size: x-large;
+        font-weight: 800;
+        height: 60px;
+    }
+    .stext{
+        font-size: 2.3rem;
+    }
+    .weatherDisplay{
+        flex-direction: column;
+    }
+    .display{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .currentImg{
+        order: 2;
+        flex-direction: row;
+        width:50%;
+        padding-top: 0;
+    }
+    .details{
+        order:1;
+        width:50%;
+    }
+    .c_icon {
+        width: 45%;
+        margin-bottom: 20px;
+    }
+    
+    .c_text{
+        width: 55%;
+        margin-left: 25px;
+        
+    }
+    .currentData h2 {
+        font-size: 32px;
+        line-height: 35px;
+        font-weight: 700;
+    }
+    .currentData h4 {
+        font-size: 25px;
+    }
+
+    .dataCards h2{
+        font-size: 24px;
+    }
+    .fiveDayForecast .dataCards .card{
+        --cardWidth: 200px;
+        --cardHeight: 225px;
+        width: var(--cardWidth);
+        height: var(--cardHeight);
+    }
+    body{
+        background-repeat:round;
+    }
+    .card h4{
+        font-size: larger;
+    }
+
+}
+
 
 
   
